@@ -17,7 +17,11 @@ namespace BlazorApp.DBFirst.Server.Services
         {
             try 
             {
-               return _dbContext.Blogs.ToList();
+                var blog = from b in _dbContext.Blogs
+                          where b.IsDeleted == false
+                          select b;
+
+                return blog.ToList();
             }
             catch 
             {
@@ -75,7 +79,7 @@ namespace BlazorApp.DBFirst.Server.Services
                 Blog? blog = _dbContext.Blogs.Find(id);
                 if (blog != null) 
                 {
-                    _dbContext.Blogs.Remove(blog);
+                    blog.IsDeleted = true;                    
                     _dbContext.SaveChanges();
                 }
                 else 

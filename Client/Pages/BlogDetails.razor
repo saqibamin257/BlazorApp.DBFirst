@@ -1,9 +1,31 @@
 ﻿@page "/fetchblogdetails"
 @using BlazorApp.DBFirst.Shared.Models
+@using BlazorApp.DBFirst.Shared.Utilities
 @inject HttpClient Http
 
 <h1>Blog List</h1>
-
+<div class="row">
+    <div class="col-md-6">
+        <a href='/blog/add' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add Blog
+        </a>
+    </div>
+   @* <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search user by name"
+        @bind="SearchString" @bind:event="oninput" @onkeyup="FilterUser"/>
+        
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>*@
+</div>
+<br/>
 
 @if(blogList == null)
 {
@@ -20,6 +42,7 @@ else
                 <th>Post</th>
                 <th>Published Date</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -28,10 +51,18 @@ else
                 <tr>
                     <td>@blog.Blogid</td>
                     <td>@blog.Title</td>
-                    <td>@blog.CreationDate</td>
-                    <td>@blog.PostBody</td>
-                    <td>@blog.PublishedDate</td>
-                    <td>@(blog.Status ?"Active":"In Active") </td>                    
+                    <td>@blog.CreationDate.ToString("dd-MM-yyyy")</td>
+                    <td>@(Utility.TruncateString(blog.PostBody,25))</td> 
+                    <td>@blog.PublishedDate.ToString("dd-MM-yyyy")</td>
+                    <td>@(blog.Status ?"Active":"In Active") </td>
+                     <td>
+                        <a href='/blog/edit/@blog.Blogid' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+                        <a href='/blog/delete/@blog.Blogid' class="btn btn-outline-danger" role="button">
+                            Delete
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -40,14 +71,15 @@ else
 
 
 @code {
-    protected List<Blog> blogList = new();
+    protected List<Blog>? blogList = new();
 
 
     protected override async Task OnInitializedAsync()
     {
         await GetBlogList();
     }
+    
     protected async Task GetBlogList() =>  
         blogList = await Http.GetFromJsonAsync<List<Blog>>("api/Blog");
-
+        
 }

@@ -15,9 +15,37 @@ namespace BlazorApp.DBFirst.Server.Controllers
             _IBlog = iBlog;
         }
         [HttpGet]
-        public async Task<List<Blog>> Get() 
+        public async Task<List<Blog>> Get()
         {
             return await Task.FromResult(_IBlog.GetBlogs());
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id) 
+        {
+            Blog blog = _IBlog.GetBlogById(id);
+            if (blog != null) 
+            {
+                return Ok(blog);
+            }
+            return NotFound(); 
+        }
+        [HttpPost]
+        public void Post(Blog blog)
+        {
+            _IBlog.AddBlog(blog);
+        }
+        [HttpPut]
+        public void Put(Blog blog)
+        {
+            _IBlog.UpdateBlogDetails(blog);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            _IBlog.DeleteBlog(id);
+            return Ok();
         }
     }
 }
