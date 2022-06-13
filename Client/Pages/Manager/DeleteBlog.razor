@@ -1,4 +1,4 @@
-﻿@page "/blog/delete/{blogId:int}"
+﻿@page "/managerblog/delete/{blogId:int}"
 @using BlazorApp.DBFirst.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
@@ -55,10 +55,10 @@
     protected async Task RemoveBlog(int blogId)
     {
         await Http.DeleteAsync($"/api/Blog/{blogId}");
-        NavigationManager.NavigateTo("/fetchblogdetails");
+        NavigationManager.NavigateTo("/fetchmanagerblogdetails");
     }
     public void Cancel()
     {
-       NavigationManager.NavigateTo("/fetchblogdetails");
+       NavigationManager.NavigateTo("/fetchmanagerblogdetails");
     }
 }

@@ -1,0 +1,39 @@
+﻿@page "/home"
+@using BlazorApp.DBFirst.Shared.Models
+@using BlazorApp.DBFirst.Shared.Utilities
+@inject HttpClient Http
+
+<h1>Blogs Home</h1>
+<div>
+    @if(blogList == null)
+    {
+    <p><em>Loading...</em></p>
+    }
+    else 
+    {
+     @foreach(var blog in blogList)
+      {
+        <div class = "blogpost">
+            <Title title = "@blog.Title"/>
+            <Date date = "@(blog.PublishedDate.ToString("dd-MMM-yyyy"))"/>
+            <ShortDescription text="@blog.PostBody" />
+        </div>
+      }        
+   }
+</div>
+
+
+
+
+
+@code {
+    protected List<Blog>? blogList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetBlogList();
+    }
+    
+    protected async Task GetBlogList() =>  
+        blogList = await Http.GetFromJsonAsync<List<Blog>>("api/Blog");
+}

@@ -1,4 +1,4 @@
-﻿@page "/fetchblogdetails"
+﻿@page "/fetchmanagerblogdetails"
 @using BlazorApp.DBFirst.Shared.Models
 @using BlazorApp.DBFirst.Shared.Utilities
 @inject HttpClient Http
@@ -6,7 +6,7 @@
 <h1>Blog List</h1>
 <div class="row">
     <div class="col-md-6">
-        <a href='/blog/add' class="btn btn-primary" role="button">
+        <a href='/managerblog/add' class="btn btn-primary" role="button">
             <i class="fas fa-user-plus"></i>
             Add Blog
         </a>
@@ -56,10 +56,10 @@ else
                     <td>@blog.PublishedDate.ToString("dd-MM-yyyy")</td>
                     <td>@(blog.Status ?"Active":"In Active") </td>
                      <td>
-                        <a href='/blog/edit/@blog.Blogid' class="btn btn-outline-dark" role="button">
+                        <a href='/managerblog/edit/@blog.Blogid' class="btn btn-outline-dark" role="button">
                             Edit
                         </a>
-                        <a href='/blog/delete/@blog.Blogid' class="btn btn-outline-danger" role="button">
+                        <a href='/managerblog/delete/@blog.Blogid' class="btn btn-outline-danger" role="button">
                             Delete
                         </a>
                     </td>
