@@ -14,6 +14,7 @@ namespace BlazorApp.DBFirst.Server.Models
         }
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
+        public virtual DbSet<UserInformation> UserInformations { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -33,7 +34,6 @@ namespace BlazorApp.DBFirst.Server.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });
-
             modelBuilder.Entity<Blog>(entity =>
             {
                 entity.ToTable("post");
@@ -53,7 +53,16 @@ namespace BlazorApp.DBFirst.Server.Models
                 entity.Property(e => e.IsDeleted)
                     .IsUnicode(false);
             });
-
+            modelBuilder.Entity<UserInformation>(entity => 
+            {
+                entity.Property(e => e.UserInformationid).HasColumnName("UserInformationid");
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entity.Property(e => e.Password)
+                   .HasMaxLength(50)
+                   .IsUnicode(false);
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }

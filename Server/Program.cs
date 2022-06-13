@@ -14,6 +14,7 @@ builder.Services.AddDbContext<DatabaseContext>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddTransient<IUser, UserManager>();
 builder.Services.AddTransient<IBlog, BlogManager>();
+builder.Services.AddTransient<IUserInformation, UserInformationManager>();
 
 
 builder.Services.AddControllersWithViews();
