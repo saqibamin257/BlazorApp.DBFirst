@@ -28,6 +28,31 @@ namespace BlazorApp.DBFirst.Server.Services
                 throw;
             }
         }
+
+        //Get Active Blogs
+        public List<Blog> GetActiveBlogs(string constant)
+        {
+            try
+            {
+                if (constant == "active")
+                {
+                    var blog = from b in _dbContext.Blogs
+                               where b.IsDeleted == false && b.Status == true
+                               select b;
+
+                    return blog.ToList();
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         //Add new blog
         public void AddBlog(Blog blog) 
         {

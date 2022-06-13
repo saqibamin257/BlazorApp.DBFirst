@@ -1,8 +1,12 @@
 ﻿@using BlazorApp.DBFirst.Shared.Utilities
 
-<p>@(Utility.TruncateString(text,50))<a href=""> readmore...</a> </p>
+<p>@(Utility.TruncateString(text,100))</p>
+<a href="@url" class="btn btn-primary" role="button">Read More</a>
+
 
 @code {
     [Parameter]
-    public string text { get; set; } = string.Empty;    
+    public string text { get; set; } = string.Empty;
+    [Parameter]
+    public string url { get; set; } = string.Empty;
 }

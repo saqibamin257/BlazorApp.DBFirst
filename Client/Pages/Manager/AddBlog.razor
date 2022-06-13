@@ -40,7 +40,8 @@
     <div>
         <label>
             Status:
-            <InputCheckbox @bind-Value="blog.Status" />
+            <InputCheckbox @bind-Value="blog.Status" @onchange="CheckChanged" />        
+            @checkedMessage
         </label>
     </div>
 
@@ -49,7 +50,13 @@
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
         <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+        <button type="button" @onclick="Toggle">Show/Hide</button>
     </div>
+    @if (@isMoving)
+    {
+         <div>Hello</div>
+    }
+   
 </EditForm>
 
 
@@ -57,8 +64,12 @@
 @code {
     [Parameter]
     public int blogId { get; set; }
-    
+
     protected string Title = "Add";
+    private string checkedMessage = "Not changed yet";
+    private bool isMoving { get; set; } = true;  
+
+
     protected Blog blog = new();
     protected override async Task OnParametersSetAsync()
     {
@@ -83,5 +94,17 @@
     public void Cancel()
     {
         NavigationManager.NavigateTo("/fetchmanagerblogdetails");
+    }
+
+    
+
+    private void Toggle()
+    {
+        isMoving = !isMoving;        
+    }
+
+    private void CheckChanged()
+    {
+        checkedMessage = $"Last changed at {DateTime.Now}";
     }
 }

@@ -35,8 +35,7 @@ else
 {
     <table class="table table-striped align-middle table-bordered">
         <thead class="table-success">
-            <tr>
-                <th>ID</th>
+            <tr>                
                 <th>Title</th>
                 <th>Created On</th>
                 <th>Post</th>
@@ -48,20 +47,18 @@ else
         <tbody>
             @foreach (var blog in blogList)
             {
-                <tr>
-                    <td>@blog.Blogid</td>
+                <tr>                   
                     <td>@blog.Title</td>
                     <td>@blog.CreationDate.ToString("dd-MM-yyyy")</td>
                     <td>@(Utility.TruncateString(blog.PostBody,25))</td> 
                     <td>@blog.PublishedDate.ToString("dd-MM-yyyy")</td>
                     <td>@(blog.Status ?"Active":"In Active") </td>
                      <td>
-                        <a href='/managerblog/edit/@blog.Blogid' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
-                        <a href='/managerblog/delete/@blog.Blogid' class="btn btn-outline-danger" role="button">
-                            Delete
-                        </a>
+                         @if(!@blog.Status)
+                         {
+                             <a href='/managerblog/edit/@blog.Blogid' class="btn btn-outline-dark" role="button">Edit</a> <span> </span>
+                         }                        
+                         <a href='/managerblog/delete/@blog.Blogid' class="btn btn-outline-danger" role="button">Delete</a>
                     </td>
                 </tr>
             }

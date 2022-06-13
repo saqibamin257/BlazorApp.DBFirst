@@ -21,14 +21,21 @@ namespace BlazorApp.DBFirst.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id) 
+        public IActionResult GetById(int id)
         {
             Blog blog = _IBlog.GetBlogById(id);
-            if (blog != null) 
+            if (blog != null)
             {
                 return Ok(blog);
             }
-            return NotFound(); 
+            return NotFound();
+        }
+
+        [Route("[action]/{constant}")]       
+        [HttpGet]
+        public async Task<List<Blog>> GetActiveBlogs(string constant)
+        {          
+          return await Task.FromResult(_IBlog.GetActiveBlogs(constant));                   
         }
         [HttpPost]
         public void Post(Blog blog)

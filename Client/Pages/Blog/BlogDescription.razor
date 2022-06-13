@@ -1,7 +1,25 @@
-﻿@page "/home/blog"
+﻿@page "/home/blog/{blogId:int}"
+@using BlazorApp.DBFirst.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
 
-<h3>BlogDescription</h3>
+<h1>Blog Description</h1>
+<div>
+    <h2>@blog.Title</h2>
+    <p>@blog.PostBody</p>
+    <button class="btn btn-light" @onclick="Back">Back</button>
+</div>
 
 @code {
-
+    [Parameter]
+    public int blogId { get; set; }
+    protected Blog blog = new();
+    protected override async Task OnParametersSetAsync()
+    {             
+      blog = await Http.GetFromJsonAsync<Blog>($"api/Blog/{blogId}");        
+    }
+    public void Back()
+    {
+        NavigationManager.NavigateTo("/home");
+    }
 }

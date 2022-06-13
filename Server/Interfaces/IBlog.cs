@@ -8,6 +8,7 @@ namespace BlazorApp.DBFirst.Server.Interfaces
         public void AddBlog(Blog blog);
         public void UpdateBlogDetails(Blog blog);
         public Blog GetBlogById(int id);
+        public List<Blog> GetActiveBlogs(string constant);
         public void DeleteBlog(int id);
 
     }

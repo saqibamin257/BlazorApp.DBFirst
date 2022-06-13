@@ -12,11 +12,12 @@
     else 
     {
      @foreach(var blog in blogList)
-      {
-        <div class = "blogpost">
+        {
+            string linkURL = $"/home/blog/{@blog.Blogid}";
+            <div class = "blogpost">
             <Title title = "@blog.Title"/>
             <Date date = "@(blog.PublishedDate.ToString("dd-MMM-yyyy"))"/>
-            <ShortDescription text="@blog.PostBody" />
+            <ShortDescription text="@blog.PostBody" url ="@linkURL" />
         </div>
       }        
    }
@@ -35,5 +36,6 @@
     }
     
     protected async Task GetBlogList() =>  
-        blogList = await Http.GetFromJsonAsync<List<Blog>>("api/Blog");
+        blogList = await Http.GetFromJsonAsync<List<Blog>>("api/Blog/GetActiveBlogs/active");
+
 }

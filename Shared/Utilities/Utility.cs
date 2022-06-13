@@ -9,6 +9,6 @@ namespace BlazorApp.DBFirst.Shared.Utilities
     public class Utility
     {
         public static string TruncateString(string text, int maxChars) =>                    
-             text.Length <= maxChars ? text : $"{text.Substring(0, maxChars)}";        
+             text.Length <= maxChars ? text : $"{text.Substring(0, maxChars)}...";        
     }
 }
