@@ -12,15 +12,19 @@ namespace BlazorApp.DBFirst.Server.Services
         {
             _dbContext = dbContext;
         }
-        public bool IsAuthenticUser(string userName, string password) 
+        public bool IsAuthenticUser(UserInformation userInfo) 
         {
             try
             {
-                var userInfo = from user in _dbContext.UserInformations
-                               where user.UserName == userName && user.Password == password
-                               select user;
-                if (userInfo != null)
+                var user = from u in _dbContext.UserInformations
+                           where u.UserName == userInfo.UserName && u.Password == userInfo.Password
+                           select u;
+                           
+
+                if (user.Any()) 
+                {
                     return true;
+                }                    
             }
             catch
             {
@@ -28,5 +32,6 @@ namespace BlazorApp.DBFirst.Server.Services
             }
             return false;
         }
+
     }
 }

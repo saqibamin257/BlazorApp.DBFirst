@@ -12,9 +12,9 @@ namespace BlazorApp.DBFirst.Server.Models
             : base(options)
         {
         }
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<Blog> Blogs { get; set; } = null!;
-        public virtual DbSet<UserInformation> UserInformations { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Blog> Blogs { get; set; }
+        public virtual DbSet<UserInformation> UserInformations { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>(entity =>
@@ -55,6 +55,7 @@ namespace BlazorApp.DBFirst.Server.Models
             });
             modelBuilder.Entity<UserInformation>(entity => 
             {
+                entity.ToTable("login");
                 entity.Property(e => e.UserInformationid).HasColumnName("UserInformationid");
                 entity.Property(e => e.UserName)
                     .HasMaxLength(50)
@@ -66,9 +67,6 @@ namespace BlazorApp.DBFirst.Server.Models
 
             OnModelCreatingPartial(modelBuilder);
         }
-
-
-
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

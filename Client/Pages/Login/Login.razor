@@ -1,0 +1,46 @@
+﻿@page "/login"
+@using BlazorApp.DBFirst.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<h3>Login</h3>
+
+<EditForm Model="@userInfo" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">               
+                 <label for="Username" class="form-label">Username</label>
+                <InputText @bind-Value="userInfo.UserName" class="form-control" />
+                <ValidationMessage For="@(() => userInfo.UserName)" />
+            </div>
+            <div class="form-group">
+                <label for="Password" class="form-label">Password</label>                
+                <InputText @bind-Value="userInfo.Password" type="password" class="form-control" />
+                <ValidationMessage For="@(() => userInfo.Password)" />
+            </div>
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary">                
+                Login
+            </button>
+            </div>
+            
+</EditForm>
+
+
+
+@code {
+    private UserInformation userInfo = new();    
+
+    private async void OnValidSubmit()
+    {
+        var result = await Http.PostAsJsonAsync("api/UserInformation", userInfo);
+        Console.WriteLine($"response = {result}");
+        if(result.IsSuccessStatusCode)
+        {
+            BlogDetail();      
+        }
+    }
+    private void BlogDetail()
+    {
+        NavigationManager.NavigateTo("/fetchmanagerblogdetails");
+    }
+}

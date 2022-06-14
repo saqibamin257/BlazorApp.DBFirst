@@ -1,7 +1,9 @@
-﻿namespace BlazorApp.DBFirst.Server.Interfaces
+﻿using BlazorApp.DBFirst.Shared.Models;
+
+namespace BlazorApp.DBFirst.Server.Interfaces
 {
     public interface IUserInformation
     {
-        public bool IsAuthenticUser(string usedId, string password);
+       public bool IsAuthenticUser(UserInformation userInfo);
     }
 }

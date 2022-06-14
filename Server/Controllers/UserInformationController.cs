@@ -9,16 +9,21 @@ namespace BlazorApp.DBFirst.Server.Controllers
     [ApiController]
     public class UserInformationController : ControllerBase
     {
-        private readonly IUserInformation IUserInformation;
+        private readonly IUserInformation _IUserInformation;
         public UserInformationController(IUserInformation iUserInformation)
         {
-            IUserInformation = iUserInformation;
+            _IUserInformation = iUserInformation;
         }
         
-        [HttpGet]
-        public  bool IsAuthenticUser(string userid, string password) 
+        [HttpPost]
+        public IActionResult IsAuthenticUser(UserInformation userInfo) 
         {
-           return IUserInformation.IsAuthenticUser(userid, password);
+            var result = _IUserInformation.IsAuthenticUser(userInfo);
+            if (result) 
+            {
+                return Ok();
+            }
+            else { return NotFound(); }
         }
     }
 }
