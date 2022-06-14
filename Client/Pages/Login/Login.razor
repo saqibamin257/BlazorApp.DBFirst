@@ -36,7 +36,7 @@
         var result = await Http.PostAsJsonAsync("api/UserInformation", userInfo);
         Console.WriteLine($"response = {result}");
         if(result.IsSuccessStatusCode)
-        {
+        {            
             BlogDetail();      
         }
         else
