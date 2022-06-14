@@ -11,9 +11,9 @@
             Add Blog
         </a>
     </div>
-   @* <div class="input-group col">
-        <input type="text" class="form-control" placeholder="Search user by name"
-        @bind="SearchString" @bind:event="oninput" @onkeyup="FilterUser"/>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search blog by title"
+        @bind="SearchString" @bind:event="oninput" @onkeyup="FilterBlog"/>
         
         @if (SearchString.Length > 0)
         {
@@ -23,7 +23,7 @@
                 </button>
             </div>
         }
-    </div>*@
+    </div>
 </div>
 <br/>
 
@@ -69,14 +69,39 @@ else
 
 @code {
     protected List<Blog>? blogList = new();
-
+    protected List<Blog>? searchBlogData = new();
+    protected string SearchString { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         await GetBlogList();
     }
-    
-    protected async Task GetBlogList() =>  
+
+    protected async Task GetBlogList()
+    {
         blogList = await Http.GetFromJsonAsync<List<Blog>>("api/Blog");
+        searchBlogData = blogList;       
+    } 
+    
+    protected void FilterBlog()
+    {
+        if(!string.IsNullOrEmpty(SearchString))
+        {
+            blogList = searchBlogData
+                      .Where(x => x.Title.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                      .ToList();
+        }
+        else
+        {
+            blogList = searchBlogData;            
+        }
+    }
+
+
+    public void ResetSearch()
+    {
+        SearchString = string.Empty;
+        blogList = searchBlogData;
+    }
         
 }

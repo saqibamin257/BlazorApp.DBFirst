@@ -2,6 +2,7 @@
 @using BlazorApp.DBFirst.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <h3>Login</h3>
 
@@ -37,6 +38,10 @@
         if(result.IsSuccessStatusCode)
         {
             BlogDetail();      
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "Invalid username or password!");
         }
     }
     private void BlogDetail()
