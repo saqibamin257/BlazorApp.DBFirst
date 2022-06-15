@@ -27,8 +27,6 @@
             </div>            
 </EditForm>
 
-@if(isLogin){<p>LoggedIn</p>}
-
 @code {
     private UserInformation userInfo = new();
     private bool isLogin;
@@ -42,7 +40,6 @@
             await sessionStorage.SetItemAsync("isLogin", true);
             BlogDetail();      
         }
-
         else
         {
             await JS.InvokeVoidAsync("alert", "Invalid username or password!");
@@ -56,6 +53,10 @@
     protected override async Task OnParametersSetAsync()
     {
         isLogin = await sessionStorage.GetItemAsync<bool>("isLogin");
+        if (isLogin)
+        {
+            BlogDetail();            
+        }
     }
     
 
