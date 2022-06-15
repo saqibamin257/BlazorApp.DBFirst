@@ -3,6 +3,8 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
 
 <h3>Login</h3>
 
@@ -22,23 +24,25 @@
             <button type="submit" class="btn btn-primary">                
                 Login
             </button>
-            </div>
-            
+            </div>            
 </EditForm>
 
-
+@if(isLogin){<p>LoggedIn</p>}
 
 @code {
-    private UserInformation userInfo = new();    
+    private UserInformation userInfo = new();
+    private bool isLogin;
 
     private async void OnValidSubmit()
     {
         var result = await Http.PostAsJsonAsync("api/UserInformation", userInfo);
         Console.WriteLine($"response = {result}");
         if(result.IsSuccessStatusCode)
-        {            
+        {
+            await sessionStorage.SetItemAsync("isLogin", true);
             BlogDetail();      
         }
+
         else
         {
             await JS.InvokeVoidAsync("alert", "Invalid username or password!");
@@ -48,4 +52,11 @@
     {
         NavigationManager.NavigateTo("/fetchmanagerblogdetails");
     }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        isLogin = await sessionStorage.GetItemAsync<bool>("isLogin");
+    }
+    
+
 }
